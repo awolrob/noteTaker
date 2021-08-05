@@ -4,13 +4,15 @@ const fs = require('fs');
 const express = require('express');
 const { json } = require('express');
 
-const jsNotes =
-  [
-    // {
-    //     title:"Test Title",
-    //     text:"Test text"
-    // }
-  ];
+const crypto = require("crypto");
+
+// const jsNotes =
+//   [
+//     // {
+//     //     title:"Test Title",
+//     //     text:"Test text"
+//     // }
+//   ];
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -41,8 +43,12 @@ app.get('/api/notes', (req, res) => {
     if (error) {
       return console.log(error);
     }
-
+    console.log(jsNotes," jsNotes",error," error");
     // console.log(JSON.parse(jsNotes));
+    if (jsNotes.trim() === "") {
+      console.log("empty file");
+      return res.json(JSON.parse("[]"));
+    };
     return res.json(JSON.parse(jsNotes));
   });
 
@@ -52,6 +58,12 @@ app.get('/api/notes', (req, res) => {
 app.post('/api/notes', (req, res) => {
   const jsNote = req.body;
   // const jsNoteArray = [];
+
+  const id = crypto.randomBytes(4).toString("hex");
+
+  console.log(id);
+
+  jsNote.id = id;
 
   console.log(jsNote);
 
