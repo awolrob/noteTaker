@@ -2,20 +2,22 @@ const path = require('path');
 const fs = require('fs');
 
 const express = require('express');
+const { json } = require('express');
 
-const jsNotes = 
-[
-  // {
-  //     title:"Test Title",
-  //     text:"Test text"
-  // }
-];
+const jsNotes =
+  [
+    // {
+    //     title:"Test Title",
+    //     text:"Test text"
+    // }
+  ];
 
 const PORT = process.env.PORT || 3001;
 const app = express();
 // const apiRoutes = require('./routes/apiRoutes');
 // const htmlRoutes = require('./routes/htmlRoutes');
 
+// Sets up the Express app to handle data parsing
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('public'));
@@ -33,19 +35,46 @@ app.get('/notes', (req, res) => {
 });
 
 app.get('/api/notes', (req, res) => {
-  
-  fs.readFile("./db/db.json", "utf8", function(error, jsNotes) {
+
+  fs.readFile("./db/db.json", "utf8", function (error, jsNotes) {
 
     if (error) {
       return console.log(error);
     }
-    
-    console.log(JSON.parse(jsNotes));
-    return res.json(JSON.parse(jsNotes));  
-    });
-  
+
+    // console.log(JSON.parse(jsNotes));
+    return res.json(JSON.parse(jsNotes));
+  });
+
 });
 
+// Create a POST route that adds new notes to db.json then returns new note to client
+app.post('/api/notes', (req, res) => {
+  const jsNote = req.body;
+  // const jsNoteArray = [];
+
+  console.log(jsNote);
+
+  fs.readFile("./db/db.json", "utf8", function (error, jsNotes) {
+
+    if (error) {
+      return console.log(error);
+    }
+
+    // console.log(JSON.parse(jsNotes));
+    const jsNoteArray = JSON.parse(jsNotes);
+
+    jsNoteArray.push(jsNote);
+    console.log(jsNoteArray);
+    fs.writeFileSync(
+      path.join(__dirname, './db/db.json'),
+      JSON.stringify( jsNoteArray , null, 2)
+    );
+
+    res.json(jsNote);
+
+  });
+});
 
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, './public/index.html'));
