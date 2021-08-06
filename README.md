@@ -1,4 +1,4 @@
-# 11 Object-Oriented Programming: Team Profile Generator
+# 11 Express.js: Note Taker
 
 ## Author: Rob Ellingson
 - Source: [Github](https://github.com/awolrob/noteTaker)
@@ -25,7 +25,6 @@
 
 ## Install
 * npm install express
-* npm install inquirer
 
 ## Run
 * Open ( https://aqueous-spire-77358.herokuapp.com/ ) in your browser.
@@ -38,7 +37,7 @@ The following images show the web application's appearance and functionality:
 
 ![Note titled “Balance accounts” reads, “Balance account books by end of day Monday,” with other notes listed on the left.](./assets/11-express-homework-demo-02.png)
 
-## Final Page
+## Final Pages
 
 The following images were generated using the application:
 
